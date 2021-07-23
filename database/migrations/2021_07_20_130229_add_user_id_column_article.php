@@ -14,7 +14,8 @@ class AddUserIdColumnArticle extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+            $table->engine = 'InnoDB';
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
         });
     }

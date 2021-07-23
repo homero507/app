@@ -17,14 +17,14 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::truncate();
+       //User::truncate();
 
         $faker = \Faker\Factory::create();
 
         User::create([
             'name' => 'Administrador',
             'email' => 'Adminprueba@example.com',
-            'password' => 15963,
+            'password' => 159635,
         ]);
 
         $password = Hash::make('yourPa$$w0rd');
@@ -38,5 +38,5 @@ class UsersTableSeeder extends Seeder
 
             ]);
         }
-    }
+    } 
 }
