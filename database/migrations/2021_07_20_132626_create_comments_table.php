@@ -12,16 +12,22 @@ class CreateCommentsTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {   
         Schema::create('comments', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->text('text');
-            $table->unsignedBigInteger('article_id');
-            $table->foreign('article_id')->references('id')->on('articles')->onDelete('restrict');
+            $table->string('text')->index('text');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');       
+            $table->foreign('user_id')->references('id')->on('users')->nullable()->change(); 
+            
+            
+        });
+
+        Schema::table('comments', function ($table) {           
+           $table->foreignId('article_id')->constrained(); 
         });
     }
+
 
     /**
      * Reverse the migrations.
