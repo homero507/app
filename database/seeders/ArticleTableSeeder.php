@@ -16,7 +16,7 @@ class ArticleTableSeeder extends Seeder
      */
     public function run()
     {
-        Article::truncate();
+        //Article::truncate();
 
         $faker = \Faker\Factory::create();
 
@@ -35,6 +35,7 @@ class ArticleTableSeeder extends Seeder
                     'title' => $faker->sentence(),
                     'body' => $faker->paragraph(5),
                     'user_id' => $user->id,
+                    'category_id' => $faker->numberBetween($min = 1, $max = 3)
                 ]);
             }
         }        
