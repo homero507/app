@@ -30,6 +30,7 @@ class CommentsTableSeeder extends Seeder
             $users = User::all();
 
                 foreach ($users as $user) {
+                    
                     JWTAuth::attempt(['email' => $user->email, 'password' => '159635']);
 
                     foreach ($articles as $article) {
