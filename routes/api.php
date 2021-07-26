@@ -5,12 +5,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 use App\Models\Article;
+use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Article as ArticleResource;
 
 
 
 Route::post('register', 'App\Http\Controllers\UserController@register');
 Route::post('login', 'App\Http\Controllers\UserController@authenticate');
-Route::get('articles', 'App\Http\Controllers\ArticleController@index');
+Route::get('articles', function() {
+    return new ArticleResource(Article::all());
+});
 
 Route::group(['middleware' => ['jwt.verify']], function() {
 
