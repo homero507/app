@@ -12,7 +12,7 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'article_id';
+    protected $primaryKey = 'id';
 
     protected $fillable = ['title', 'body', 'id_user'];
 
