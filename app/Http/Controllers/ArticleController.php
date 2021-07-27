@@ -26,8 +26,10 @@ class ArticleController extends Controller
 
         $validator = Validator::make($request->all(), [
              'title' => 'required|string|unique:articles|max:255',
-             'body' => 'required|string'    
+             'body' => 'required|string',
+             'category_id' => 'required|exists:categories,id',   
          ]);
+
          if ($validator->fails()) {
              return response()->json(['error' => 'data_validation_failed',
             "error_list"=>$validator->errors()], 400);
@@ -38,6 +40,17 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
+        $validator = Validator::make($request->all(), [
+             'title' => 'required|string|unique:articles,title.'.$article->id.'|max:255',
+             'body' => 'required|string',
+             'category_id' => 'required|exists:categories,id',   
+         ]);
+
+        if ($validator->fails()) {
+             return response()->json(['error' => 'data_validation_failed',
+            "error_list"=>$validator->errors()], 400);
+         }
+
         $article->update($request->all());
         return response()->json($article, 200);    
     }
