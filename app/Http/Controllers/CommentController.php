@@ -30,7 +30,7 @@ class CommentController extends Controller
      */
     public function store(Request $request, Article $article)
     {
-        $request->validate([
+         $request->validate([
             'text' => 'required|string'
         ]);
 

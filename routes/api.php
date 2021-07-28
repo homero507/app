@@ -22,9 +22,11 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     //Articles
     Route::get('articles/{article}','App\Http\Controllers\ArticleController@show');
+    Route::get('articles/{article}/image', 'App\Http\Controllers\ArticleController@image');
     Route::post('articles','App\Http\Controllers\ArticleController@store');
     Route::put('articles/{article}', 'App\Http\Controllers\ArticleController@update');
     Route::delete('articles/{article}', 'App\Http\Controllers\ArticleController@delete');
+
     
     //comments
 

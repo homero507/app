@@ -24,8 +24,8 @@ class UsersTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         User::create([
-            'name' => 'Administrador',
-            'email' => 'Adminprueba@example.com',
+            'name' => 'homero',
+            'email' => 'homero@example.com',
             'password' => 159635,
         ]);
 
