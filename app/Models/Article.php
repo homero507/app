@@ -14,7 +14,7 @@ class Article extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['title', 'body', 'id_user'];
+    protected $fillable = ['title', 'body', 'id_user', 'category_id', 'image'];
 
    /* public static function boot()
     {

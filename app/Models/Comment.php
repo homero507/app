@@ -13,7 +13,7 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['text'];
+    protected $fillable = ['text', 'user_id', 'article_id'];
 
     public $timestamps = false;
 

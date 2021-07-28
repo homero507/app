@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use DB;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        Storage::deleteDirectory('articles');
+        Storage::makeDirectory('articles');
 
         Schema::enableForeignKeyConstraints();
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');

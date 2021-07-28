@@ -23,6 +23,7 @@ class Article extends JsonResource
             'created_at' => $this->created_at,            
             'user' => "/api/users/" . $this->user_id,
             'category_id' => "/api/categories/" . $this->category_id,
+            'image' => $this->image,
         ];
     }
 }

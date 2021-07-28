@@ -17,14 +17,15 @@ class CreateCommentsTable extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('text')->index('text');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->nullable()->change(); 
+            $table->unsignedBigInteger('user_id')->nullable()->unsigned();
+            $table->foreign('user_id')->references('id')->on('users'); 
             
             
         });
 
         Schema::table('comments', function ($table) {           
-           $table->foreignId('article_id')->constrained(); 
+           $table->unsignedBigInteger('article_id')->nullable()->unsigned();
+           $table->foreign('article_id')->references('id')->on('articles'); 
         });
     }
 

@@ -3,6 +3,11 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
+use App\Models\Comment as comment_models;
+use App\Models\Article;
+use App\Models\User;
+
 
 class Comment extends JsonResource
 {
@@ -17,10 +22,8 @@ class Comment extends JsonResource
         return [
             'id' => $this->id,
             'text' => $this->text,
-            'user' => '/api/users/' . User::find($this->user),
-            'article' => '/api/articles/' . $this->article_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'user' => $this->user_id,
+            'article' => $this->article_id,            
         ];
     }
 }
