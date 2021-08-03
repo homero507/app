@@ -16,7 +16,7 @@ class Category extends Model
 
     protected $fillable = ['name'];
 
-    public function users()
+    public function user()
     {
         return $this->belongsToMany(User::class)->as('subscription')->withTimestamps();
     }
