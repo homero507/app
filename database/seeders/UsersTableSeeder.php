@@ -4,7 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Admin;
+use App\Models\Writer;
 use Database\Seeders\Categories;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,30 +26,49 @@ class UsersTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        User::create([
+        $password = Hash::make('159635');
+
+        $admin = Admin::create(['credential_number' => '1234567890',]);
+
+        $admin->user()->create([
             'name' => 'homero',
             'email' => 'homero@example.com',
-            'password' => 159635,
+            'password' => $password,
+            'role' => 'ROLE_ADMIN',
         ]);
 
-        $password = Hash::make('yourPa$$w0rd');
-
         for ($i=0; $i < 10 ; $i++) { 
-            $user = User::create([
+
+          $writer = Writer::create([
+            'editorial' => $faker->company,
+            'short_bio' => $faker->paragraph,
+          ]);
+
+
+
+          $user = $writer->user()->create([
+
                 'name' => $faker->name,
                 'email' => $faker->safeEmail,
-
                 'password' => $password,
 
-            ]);
+            ]);   
+
+           // $user = User::find('id');
 
             $user->categories()->saveMany(
-                 $faker->randomElements(
-                 array(
+
+                $faker->randomElements(
+                array(
+
                  Category::find(1),
                  Category::find(2),
-                 Category::find(3)
-                 ), $faker->numberBetween($min = 1, $max = 3), false)
+                 Category::find(3) 
+
+                    ), $faker->numberBetween($min = 1, $max = 3), false
+
+                )
+
             );
         }
     } 

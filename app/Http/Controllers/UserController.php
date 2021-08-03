@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Writer;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserController extends Controller
 {
@@ -32,21 +35,32 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'editorial' => 'required|string',
+            'short_bio' => 'required|string',
         ]);
 
         if($validator->fails()){
                 return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = User::create([
+        $writer = Writer::create([
+
+            'editorial' => $request->get('editorial'),
+            'short_bio' => $request->get('short_bio'),
+
+        ]);
+
+        $user = $writer->user()->create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
         ]);
 
-        $token = JWTAuth::fromUser($user);
+        //$user = $writer->user;
 
-        return response()->json(compact('user','token'),201);
+        //$token = JWTAuth::fromUser($user);
+
+        return response()->json(new UserResource($user), 201);
     }
 
     public function getAuthenticatedUser()
@@ -65,7 +79,7 @@ class UserController extends Controller
     } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
     }
-        return response()->json(compact('user'));
+        return response()->json(new UserResource($user), 200);
     }
 
-}
+}     

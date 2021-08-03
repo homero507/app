@@ -9,17 +9,21 @@ use App\Http\Resources\Article as ArticleResource;
 use App\Http\Resources\ArticleCollection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Policies\ArticlePolicy;
 
 class ArticleController extends Controller
 {
     public function index ()
     {
+         //$this->authorize('viewAny', Article::class);
         return new ArticleCollection(Article::paginate());
     }
 
     public function show(Article $article)
-    {
-         return response()->json(new ArticleResource($article), 200);
+    {        
+        $this->authorize('view', $article);
+
+        return response()->json(new ArticleResource($article), 200);
     }
 
     public function image(Article $article)
@@ -28,7 +32,8 @@ class ArticleController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {      
+        $this->authorize('create', Article::class);
 
         $validator = Validator::make($request->all(), [
              'title' => 'required|string|unique:articles|max:255',
@@ -51,8 +56,10 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
+        $this->authorize('update', $article);
+
         $validator = Validator::make($request->all(), [
-             'title' => 'required|string|unique:articles,title.'.$article->id.'|max:255',
+             'title' => 'required|string|unique:articles,title|max:255',
              'body' => 'required|string',
              'category_id' => 'required|exists:categories,id',   
          ]);
@@ -68,6 +75,8 @@ class ArticleController extends Controller
 
     public function delete(Article $article)
     {
+        $this->authorize('delete', $article);
+
         $article->delete();
                 
         return response()->json(null, 204);
